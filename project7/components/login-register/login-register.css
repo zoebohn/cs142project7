@@ -6,10 +6,25 @@
 .cs142-login-body form {
     background: lightgray;
     border: 1px solid black;
-    width: 80%;
+    width: 300px;
     margin: auto;
-}
-.cs142-login-body div {
     text-align: left;
-    padding: 1%;
+    padding-left: 8px;
+    padding-bottom: 8px;
+}
+.cs142-login-body button {
+    margin-top: 8px;
+}
+.cs142-login-label {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+.cs142-login-body input {
+    width: 200px;
+}
+.cs142-login-error {
+    margin-top: 8px;
+    color: red;
+    font-family: "Courier New", monospace;
+    font-size: small;
 }

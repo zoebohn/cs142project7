@@ -7,8 +7,11 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
         $scope.login.loginError = false;
         $scope.register = {};
         $scope.registerError = false;
+        $scope.registerSuccess = false;
 
         $scope.login.requestLogin = function () {
+            $scope.register.registerError = false;
+            $scope.register.registerSuccess = false;
             $scope.login.loginError = false;
             var User = $resource("/admin/login");
             User.save({login_name: $scope.login.username, password: $scope.login.password})
@@ -22,7 +25,9 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
              });
         };
         $scope.login.requestRegister = function () {
-            //TODO reject if password fields don't match
+            $scope.login.loginError = false;
+            $scope.register.registerError = false;
+            $scope.register.registerSuccess = false;
             if ($scope.register.password !== $scope.register.passwordcpy) {
                 $scope.register.registerError = true;
                 $scope.register.errorMessage = "Error: passwords don't match.";
@@ -39,10 +44,11 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
                        description: $scope.register.description
                 })
                 .$promise.then(function(user) {
-                      // display success
+                 $scope.register.registerSuccess = true;
+                 $scope.register.successMessage = "Successfully registered " + user.login_name + "! Please login above.";
              }, function (error) {
                  $scope.register.registerError = true;
-                 $scope.register.errorMessage = "Registration failed.";
+                 $scope.register.errorMessage = "Error: registration failed.";
              });
         };
 

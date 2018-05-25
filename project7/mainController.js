@@ -95,7 +95,11 @@ cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$re
                         " " + user.last_name; 
                 });
             } else {
-                $scope.currentContext = "Users"; 
+                if (location.hash.includes("/login-register")) {
+                    $scope.currentContext = "Login";
+                } else {
+                    $scope.currentContext = "Users"; 
+                }
             }
         };
         $scope.$on('$locationChangeSuccess', getCurrentContext);

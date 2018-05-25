@@ -3,42 +3,63 @@
         Returning User? Please login: 
     </p>
     <form>
-        <div> Username: <input ng-model="login.username"></input></div>
-        <div> Password: <input type="password" ng-model="login.password"></input></div>
+        <div> 
+            <div class="cs142-login-label"> Username: </div>
+            <input ng-model="login.username"></input>
+        </div>
+        <div> 
+            <div class="cs142-login-label"> Password: </div>
+            <input type="password" ng-model="login.password"></input>
+        </div>
         <div><button ng-click="login.requestLogin()"> Login </button></div>
-        <div ng-show=login.loginError> Unrecognized username/password combination. Please try again. </div>
+        <div class="cs142-login-error" ng-show=login.loginError> 
+            Error: unrecognized username/password combination. Please try again. 
+        </div>
     </form>
     <p class="cs142-login-title">
         New User? Register with us:
     </p>
     <form>
         <div> 
-            Username: <input ng-model="register.username"></input>
+            <div class="cs142-login-label"> Username: </div>
+            <input ng-model="register.username"></input>
         </div>
         <div> 
-            Password: <input type="password" ng-model="register.password"></input>
+            <div class="cs142-login-label"> Password: </div>
+            <input type="password" ng-model="register.password"></input>
         </div>
         <div>
-            Re-enter Password: <input type="password" ng-model="register.passwordcpy"></input>
+            <div class="cs142-login-label"> Re-enter Password: </div>
+            <input type="password" ng-model="register.passwordcpy"></input>
         </div>
         <div>
-            First Name: <input ng-model="register.firstname"></input>
+            <div class="cs142-login-label"> First Name: </div>
+            <input ng-model="register.firstname"></input>
         </div>
         <div> 
-            Last Name: <input ng-model="register.lastname"></input>
+            <div class="cs142-login-label"> Last Name: </div>
+            <input ng-model="register.lastname"></input>
         </div>
         <div>
-            Location: <input ng-model="register.user_location"></input> 
+            <div class="cs142-login-label"> Location: </div>
+            <input ng-model="register.user_location"></input> 
         </div>
         <div>
-            Description: <input ng-model="register.description"></input> 
+            <div class="cs142-login-label"> Description: </div>
+            <input ng-model="register.description"></input> 
         </div>
         <div>
-            Occupation: <input ng-model="register.occupation"></input> 
+            <div class="cs142-login-label"> Occupation: </div>
+            <input ng-model="register.occupation"></input> 
         </div>
         <div>
             <button ng-click="login.requestRegister()"> Register Me </button>
         </div>
-        <div ng-show=register.registerError> {{register.errorMessage}} </div>
+        <div class="cs142-login-error" ng-show=register.registerSuccess> 
+            {{register.successMessage}} 
+        </div>
+        <div class="cs142-login-error" ng-show=register.registerError> 
+            {{register.errorMessage}} 
+        </div>
     </form>
 </div>

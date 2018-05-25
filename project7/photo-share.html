@@ -34,17 +34,19 @@
 
         <md-toolbar layout = "row">
             <span class="cs142-main-name"> {{myName}} </span>
-            <span ng-if="!admin.isLoggedIn" class="cs142-main-message1">
-                Please Login
+            <span class="cs142-main-login">
+                <span ng-if="!admin.isLoggedIn" class="cs142-main-message1">
+                    Please Login 
+                </span>
+                <span ng-if="admin.isLoggedIn" class="cs142-main-message2"> 
+                    Hi {{admin.firstname}} 
+                </span>    
+                <button ng-if="admin.isLoggedIn" 
+                        ng-click="admin.requestLogout()" 
+                        class="cs142-main-login-button" type="button">
+                    Log out
+                </button>
             </span>
-            <span ng-if="admin.isLoggedIn" class="cs142-main-message2"> 
-                Hi {{admin.firstname}} 
-            </span>
-            <button ng-if="admin.isLoggedIn" 
-                    ng-click="admin.requestLogout()" 
-                    class="cs142-main-login-button" type="button">
-                Log out
-            </button>
             <span class="cs142-main-version"> Version number: {{versionNumber}} </span>
             <span class="cs142-main-context"> {{currentContext}} </span>
         </md-toolbar>
