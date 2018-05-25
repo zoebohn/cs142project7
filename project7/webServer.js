@@ -57,10 +57,6 @@ app.use(express.static(__dirname));
 
 
 app.get('/', function (request, response) {
-    if (!request.session.loggedIn) {
-        response.status(401).send("Please login to use this feature.");
-        return;
-    }
     response.send('Simple web server of files from ' + __dirname);
 });
 
@@ -73,10 +69,6 @@ app.get('/', function (request, response) {
  * /test/counts - Return an object with the counts of the different collections in JSON format
  */
 app.get('/test/:p1', function (request, response) {
-    if (!request.session.loggedIn) {
-        response.status(401).send("Please login to use this feature.");
-        return;
-    }
     // Express parses the ":p1" from the URL and returns it in the request.params objects.
     console.log('/test called with param1 = ', request.params.p1);
 

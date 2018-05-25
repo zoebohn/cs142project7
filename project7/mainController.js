@@ -41,7 +41,6 @@ cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$re
             $scope.admin.isLoggedIn = true;
             $scope.admin.firstname = user.first_name;
             $rootScope.$broadcast('login', user); //TODO finish this
-            console.log($scope.admin.savedPath);
             $location.path($scope.admin.savedPath);
         });
 

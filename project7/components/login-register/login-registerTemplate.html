@@ -6,6 +6,7 @@
         <div> Username: <input ng-model="login.username"></input></div>
         <div> Password: <input type="password" ng-model="login.password"></input></div>
         <div><button ng-click="login.requestLogin()"> Login </button></div>
+        <div ng-show=login.loginError> Unrecognized username/password combination. Please try again. </div>
     </form>
     <p class="cs142-login-title">
         New User? Register with us:
@@ -38,5 +39,6 @@
         <div>
             <button ng-click="login.requestRegister()"> Register Me </button>
         </div>
+        <div ng-show=register.registerError> {{register.errorMessage}} </div>
     </form>
 </div>

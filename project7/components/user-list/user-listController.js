@@ -9,7 +9,6 @@ cs142App.controller('UserListController', ['$scope', '$resource',
         $scope.loadList = function() {
             var Users = $resource("/user/list");
             Users.query({}).$promise.then(function(users) {
-                console.log("updating user list");
                 $scope.model.users = users;
             });
             $scope.showProfile = function (userID) {
