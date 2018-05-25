@@ -1,0 +1,8 @@
+<table class="cs142-list-table">
+    <tr ng-repeat="user in model.users"> 
+        <td ng-click="showProfile(user._id)" class="cs142-list-cell"> 
+            {{user.first_name}} {{user.last_name}} 
+        </td>
+    </tr>
+</table>
+

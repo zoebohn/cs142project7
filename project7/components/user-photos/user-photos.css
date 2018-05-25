@@ -1,0 +1,36 @@
+.cs142-photos-img {
+    width: 100%;
+}
+
+.cs142-photos-table {
+    width: 100%;
+    padding: 5%;
+    text-align: center;
+    border-spacing: 0;
+}
+
+.cs142-photos-data {
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.cs142-photos-comments-table {
+    width: 100%;
+    border-spacing: 0;
+    background: lightgray; 
+}
+
+.cs142-photos-comment {
+    padding-left: 10px;
+}
+
+.cs142-photos-comment-label {
+    width: 200px;
+    padding: 0px;
+}
+
+.cs142-photos-title {
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}

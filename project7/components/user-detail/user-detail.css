@@ -1,0 +1,35 @@
+.cs142-detail-table {
+    width: 100%;
+    padding: 5%;
+    text-align: center;
+    border-spacing: 0; 
+}
+
+.cs142-detail-title {
+    margin-bottom: 0px;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cs142-detail-header {
+    border: 1px solid black;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: left;
+    background: lightgray;
+}
+
+.cs142-detail-data {
+    border: 1px solid black;
+    padding: 8px;
+    background: lightgray;
+}
+
+.cs142-detail-link-outer {
+    text-align: center;
+}
+
+.cs142-detail-link {
+    text-align: center;
+}

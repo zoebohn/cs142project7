@@ -1,0 +1,17 @@
+.cs142-list-table {
+    width: 100%;
+}
+
+.cs142-list-cell {
+    background: #cce6ff; 
+    padding: 5%;
+}
+
+.cs142-list-cell:hover {
+    background: #e6f3ff; 
+}
+
+.cs142-list-cell:focus {
+    outline: none;
+    border: 0;
+}

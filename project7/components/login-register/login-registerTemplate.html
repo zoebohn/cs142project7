@@ -1,0 +1,42 @@
+<div class="cs142-login-body">
+    <p class="cs142-login-title"> 
+        Returning User? Please login: 
+    </p>
+    <form>
+        <div> Username: <input ng-model="login.username"></input></div>
+        <div> Password: <input type="password" ng-model="login.password"></input></div>
+        <div><button ng-click="login.requestLogin()"> Login </button></div>
+    </form>
+    <p class="cs142-login-title">
+        New User? Register with us:
+    </p>
+    <form>
+        <div> 
+            Username: <input ng-model="register.username"></input>
+        </div>
+        <div> 
+            Password: <input type="password" ng-model="register.password"></input>
+        </div>
+        <div>
+            Re-enter Password: <input type="password" ng-model="register.passwordcpy"></input>
+        </div>
+        <div>
+            First Name: <input ng-model="register.firstname"></input>
+        </div>
+        <div> 
+            Last Name: <input ng-model="register.lastname"></input>
+        </div>
+        <div>
+            Location: <input ng-model="register.user_location"></input> 
+        </div>
+        <div>
+            Description: <input ng-model="register.description"></input> 
+        </div>
+        <div>
+            Occupation: <input ng-model="register.occupation"></input> 
+        </div>
+        <div>
+            <button ng-click="login.requestRegister()"> Register Me </button>
+        </div>
+    </form>
+</div>

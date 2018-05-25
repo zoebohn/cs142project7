@@ -1,0 +1,25 @@
+<p class="cs142-photos-title"> {{model.user.first_name}}'s Photos </p>
+<table class="cs142-photos-table">
+    <tr ng-repeat="photo in model.photos">
+        <td class="cs142-photos-data">
+            <img class="cs142-photos-img" ng-src="images/{{photo.file_name}}"></img>
+            <p> Created: {{photo.date_time}} </p>
+            <p> Comments: </p>
+            <table class="cs142-photos-comments-table">
+                <tr ng-repeat="comment in photo.comments">
+                    <td class="cs142-photos-comment-label">
+                        <p>
+                            <a ng-href="{{switchToUserProfile(comment.user._id)}}">
+                                {{comment.user.first_name}} {{comment.user.last_name}}
+                            </a>
+                        </p>
+                        <p> {{comment.date_time}} </p>
+                    </td>
+                    <td class="cs142-photos-comment">
+                        <p> {{comment.comment}} </p>
+                    </td>
+                </tr>
+        </td>
+    </tr>
+</table>
+

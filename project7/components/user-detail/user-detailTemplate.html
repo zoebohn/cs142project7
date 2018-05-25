@@ -1,0 +1,23 @@
+<p class="cs142-detail-title"> {{model.user.first_name}}'s Profile </p>
+<div>
+<table class="cs142-detail-table">
+    <tr> 
+        <th class="cs142-detail-header"> Full Name: </th>
+        <td class="cs142-detail-data"> {{model.user.first_name}} {{model.user.last_name}}</td>
+    </tr>
+    <tr> 
+        <th class="cs142-detail-header"> Location: </th>
+        <td class="cs142-detail-data"> {{model.user.location}}</td>
+    </tr>
+    <tr> 
+        <th class="cs142-detail-header"> Occupation: </th>
+        <td class="cs142-detail-data"> {{model.user.occupation}} </td>
+    </tr>
+    <tr> 
+        <th class="cs142-detail-header"> Description: </th>
+        <td class="cs142-detail-data"> {{model.user.description}}</td>
+    </tr>
+</table>
+<div class="cs142-detail-link-outer">
+    <a class="cs142-detail-link" href={{getPhotoLink()}}>Switch to Photo View</a>
+</div>

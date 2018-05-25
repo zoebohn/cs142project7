@@ -1,0 +1,15 @@
+.cs142-login-body {
+    width: 100%;
+    padding: 5%;
+    text-align: center;
+}
+.cs142-login-body form {
+    background: lightgray;
+    border: 1px solid black;
+    width: 80%;
+    margin: auto;
+}
+.cs142-login-body div {
+    text-align: left;
+    padding: 1%;
+}
