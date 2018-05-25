@@ -1,7 +1,7 @@
 'use strict';
 
-cs142App.controller('LoginRegisterController', ['$scope', '$location', '$resource', 
-    function ($scope, $location, $resource) {
+cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$location', '$resource', 
+    function ($scope, $rootScope, $location, $resource) {
       
         $scope.login = {};
         $scope.register = {};
@@ -15,6 +15,7 @@ cs142App.controller('LoginRegisterController', ['$scope', '$location', '$resourc
                     } else {
                         $scope.$parent.admin.firstname = user.first_name;
                         $scope.$parent.admin.isLoggedIn = true;
+                        $rootScope.$broadcast('login', user);
                         $location.path("/users/" + user._id);
                     }
              });
@@ -35,9 +36,7 @@ cs142App.controller('LoginRegisterController', ['$scope', '$location', '$resourc
                         // display error TODO
                         console.log("TODO");
                     } else {
-                        $scope.$parent.admin.firstname = user.first_name;
-                        $scope.$parent.admin.isLoggedIn = true;
-                        $location.path("/users/" + user._id);
+                        // display success
                     }
              });
         };

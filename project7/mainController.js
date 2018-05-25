@@ -31,14 +31,26 @@ cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$re
         $scope.main = {};
         $scope.main.title = 'Users';
         
-        /* TODO set on login */
         $scope.admin = {};
-        $scope.admin.firstname = "TODO";
+        $scope.admin.firstname = "";
         $scope.admin.isLoggedIn = false;
+        $scope.admin.savedPath = $location.path();
+
+        var Login = $resource("/admin/info");
+        Login.get({}).$promise.then(function(user) {
+            $scope.admin.isLoggedIn = true;
+            $scope.admin.firstname = user.first_name;
+            $rootScope.$broadcast('login', user); //TODO finish this
+            console.log($scope.admin.savedPath);
+            $location.path($scope.admin.savedPath);
+        });
 
         $scope.admin.requestLogout = function () {
             var Logout = $resource("/admin/logout");
             Logout.get({}).$promise.then(function() {
+                $scope.admin.isLoggedIn = false;
+                $scope.admin.firstname = "";
+                $rootScope.$broadcast('logout', "hi");
                 $location.path("/login-register");
             }); 
         };  
@@ -63,7 +75,6 @@ cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$re
 
         var getCurrentContext = function () {
             if (location.hash === undefined) {
-                console.log(location.hash);
                 $scope.currentContext = "";
             }
             var userId;

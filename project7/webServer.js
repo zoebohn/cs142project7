@@ -253,6 +253,7 @@ app.post('/admin/login', function (request, response) {
             return;
         }
         request.session.loggedIn = true;
+        request.session.user_id = user._id;
         // We got the object - return it in JSON format.
         response.end(JSON.stringify(user));
     });
@@ -268,9 +269,33 @@ app.get('/admin/logout', function (request, response) {
     }
     //TODO destroy session
     request.session.loggedIn = false;
+    request.session.user_id = "";
     response.end();
 });
 
+/* Extra credit */
+app.get('/admin/info', function (request, response) {
+    if (!request.session.loggedIn) {
+        response.status(400).send('Not currently logged in');
+        return;
+    }
+    var id = request.session.user_id;
+    User.findOne({_id:id}, {__v:0}, function (err, user) {
+        if (err) {
+            console.log('User with _id:' + id + ' not found.');
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user === null) {
+            console.log('User with _id:' + id + ' not found.');
+            response.status(400).send('Not found');
+            return;
+        }
+        // We got the object - return it in JSON format.
+        response.end(JSON.stringify(user));
+    });
+
+});
 
 var server = app.listen(3000, function () {
     var port = server.address().port;
