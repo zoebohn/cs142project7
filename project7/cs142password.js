@@ -1,3 +1,7 @@
+"use strict";
+
+var crypto = require('crypto');
+
 /*
  * Return a salted and hashed password entry from a
  * clear text password.
@@ -9,7 +13,9 @@
  *      hash - The sha1 hash of the password and salt
  */
 function makePasswordEntry(clearTextPassword) {
-    //TODO
+    var salt = crypto.randomBytes(8).toString('hex');
+    var hash = crypto.createHmac('sha1', clearTextPassword).update(salt).digest('hex');
+    return {salt: salt, hash: hash};
 }
 
 /*
@@ -21,5 +27,9 @@ function makePasswordEntry(clearTextPassword) {
  * @return {boolean}
  */
 function doesPasswordMatch(hash, salt, clearTextPassword) {
-
+    var checkHash = crypto.createHmac('sha1', clearTextPassword).update(salt).digest('hex');
+    return checkHash === hash;
 }
+
+module.exports.doesPasswordMatch = doesPasswordMatch;
+module.exports.makePasswordEntry = makePasswordEntry;

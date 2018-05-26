@@ -41,7 +41,8 @@ var PhotoSchemas = require('./schema/photo.js');
 var Comment = PhotoSchemas.Comment;
 var Photo = PhotoSchemas.Photo;
 var SchemaInfo = require('./schema/schemaInfo.js');
-
+var Password = require('./cs142password.js');
+    
 var express = require('express');
 var app = express();
 
@@ -161,7 +162,7 @@ app.get('/user/:id', function (request, response) {
         return;
     }
     var id = request.params.id;
-    User.findOne({_id:id}, {__v:0, login_name:0}, function (err, user) {
+    User.findOne({_id:id}, {__v:0, login_name:0, password_digest:0, salt:0}, function (err, user) {
         if (err) {
             console.log('User with _id:' + id + ' not found.');
             response.status(400).send(JSON.stringify(err));
@@ -253,14 +254,14 @@ app.post('/commentsOfPhoto/:photo_id', function (request, response) {
         Comment.create({comment: commentBody, date_time: Date.now(), 
             user_id: request.session.user_id}, function (err, newComment) {
             if (err) {
-                response.status(500).send(JSON.stringify(err));
+                response.status(400).send(JSON.stringify(err));
                 return;
             }
             comments.push(newComment); 
             photo.comments = comments;
             photo.save(function(err, updatedPhoto) {
                 if (err) {
-                    response.status(500).send(JSON.stringify(err));
+                    response.status(400).send(JSON.stringify(err));
                     return;
                 }
                 response.end(JSON.stringify());
@@ -310,7 +311,8 @@ app.post('/photos/new', function (request, response) {
  */
 app.post('/admin/login', function (request, response) {
     var login_name = request.body.login_name;
-    User.findOne({login_name:login_name}, {first_name:1}, function (err, user) {
+    var password = request.body.password;
+    User.findOne({login_name:login_name}, {first_name:1, salt:1, password_digest:1}, function (err, user) {
         if (err) {
             console.log('User with login name:' + login_name + ' not found.');
             response.status(400).send(JSON.stringify(err));
@@ -321,16 +323,20 @@ app.post('/admin/login', function (request, response) {
             response.status(400).send('Not found');
             return;
         }
+        if (!Password.doesPasswordMatch(user.password_digest, user.salt, password)) {
+            console.log("Invalid password.");
+            response.status(400).send('Unrecognized username/password combination.');
+            return;
+        }
         request.session.loggedIn = true;
         request.session.user_id = user._id;
+        delete user.salt;
+        delete user.password_digest;
         // We got the object - return it in JSON format.
         response.end(JSON.stringify(user));
     });
 });
 
-/*
- * URL /user/:id - Return the information for User (id)
- */
 app.get('/admin/logout', function (request, response) {
     if (!request.session.loggedIn) {
         response.status(400).send('Not currently logged in');
@@ -339,7 +345,45 @@ app.get('/admin/logout', function (request, response) {
     //TODO destroy session
     request.session.loggedIn = false;
     request.session.user_id = "";
-    response.end();
+    response.status(200).send("Successfully logged out");
+});
+
+app.post('/user', function (request, response) {
+
+    /* Check that login name does not exist */
+    User.findOne({login_name: request.body.login_name}, function (err, photo) {
+        if (err) {
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (photo) {
+            response.status(400).send("That login name has already been taken.");
+            return;
+        }
+        /* Check that first_name, last_name, and password are non-empty. */
+        if (request.body.first_name === "" || request.body.last_name === "" || 
+            request.body.password === "") {
+            response.status(400).send("All of <first name>, <last name>, and <password> fields must be non-empty");
+            return;
+        }
+        /* Create the user. */
+        var passwordEntry = Password.makePasswordEntry(request.body.password);
+        User.create({login_name: request.body.login_name,
+                     first_name: request.body.first_name,
+                     last_name: request.body.last_name,
+                     location: request.body.location,
+                     description: request.body.description,
+                     occupation: request.body.description,
+                     password_digest: passwordEntry.hash,
+                     salt: passwordEntry.salt
+                    }, function (err, newUser) {
+                        if (err) {
+                           response.status(400).send(JSON.stringify(err));
+                           return;
+                        }
+                        response.end();
+                    });
+    });
 });
 
 /* Extra credit */
