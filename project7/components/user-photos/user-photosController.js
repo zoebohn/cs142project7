@@ -21,9 +21,15 @@ cs142App.controller('UserPhotosController', ['$scope', '$routeParams', '$resourc
     };
     $scope.commenting.submit = function () {
         var Comment = $resource("/commentsOfPhoto/" + $scope.commenting.id);
-        Comment.save({comment: $scope.commenting.text}).$promise.then(function() {
-            $scope.commenting.id = "";
-            $scope.commenting.text = "";
+        Comment.save({comment: $scope.commenting.text}).
+            $promise.then(function() {
+                /* Update photos. */
+                var Photos = $resource("/photosOfUser/" + userId);
+                Photos.query({}).$promise.then(function(photos) {
+                    $scope.model.photos = photos;
+                    $scope.commenting.id = "";
+                    $scope.commenting.text = "";
+                });
         });
     };
     $scope.commenting.cancel = function () {

@@ -223,8 +223,6 @@ app.get('/photosOfUser/:id', function (request, response) {
             
         }, function (err) {
             if (err) {
-                console.log("Error****");
-                console.log(JSON.stringify(err));
                 response.status(400).send(JSON.stringify(err));
             } else {
                 response.end(JSON.stringify(photos));
@@ -253,14 +251,17 @@ app.post('/commentsOfPhoto/:photo_id', function (request, response) {
         Comment.create({comment: commentBody, date_time: Date.now(), 
             user_id: request.session.user_id}, function (err, newComment) {
             if (err) {
-                console.log("Error creating: " + err);
                 response.status(500).send(JSON.stringify(err));
                 return;
             }
             comments.push(newComment); 
             photo.comments = comments;
             photo.save(function(err, updatedPhoto) {
-                response.end(JSON.stringify(updatedPhoto));
+                if (err) {
+                    response.status(500).send(JSON.stringify(err));
+                    return;
+                }
+                response.end(JSON.stringify());
             });
         });
 
