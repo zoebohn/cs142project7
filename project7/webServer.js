@@ -337,7 +337,7 @@ app.post('/admin/login', function (request, response) {
     });
 });
 
-app.get('/admin/logout', function (request, response) {
+app.post('/admin/logout', function (request, response) {
     if (!request.session.loggedIn) {
         response.status(400).send('Not currently logged in');
         return;
@@ -361,9 +361,15 @@ app.post('/user', function (request, response) {
             return;
         }
         /* Check that first_name, last_name, and password are non-empty. */
-        if (request.body.first_name === "" || request.body.last_name === "" || 
-            request.body.password === "") {
-            response.status(400).send("All of <first name>, <last name>, and <password> fields must be non-empty");
+        if (request.body.login_name === "" ||
+            request.body.first_name === "" || 
+            request.body.last_name === "" || 
+            request.body.password === "" ||
+            !request.body.login_name ||
+            !request.body.first_name ||
+            !request.body.last_name ||
+            !request.body.password) {
+            response.status(400).send("All of <username>, <first name>, <last name>, and <password> fields must be non-empty");
             return;
         }
         /* Create the user. */
@@ -371,9 +377,9 @@ app.post('/user', function (request, response) {
         User.create({login_name: request.body.login_name,
                      first_name: request.body.first_name,
                      last_name: request.body.last_name,
-                     location: request.body.location,
+                     location: request.body.user_location,
                      description: request.body.description,
-                     occupation: request.body.description,
+                     occupation: request.body.occupation,
                      password_digest: passwordEntry.hash,
                      salt: passwordEntry.salt
                     }, function (err, newUser) {

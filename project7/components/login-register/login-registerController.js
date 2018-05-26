@@ -40,7 +40,7 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
                        first_name: $scope.register.firstname,
                        last_name: $scope.register.lastname,
                        user_location: $scope.register.user_location,
-                       occupation: $scope.register.occuption,
+                       occupation: $scope.register.occupation,
                        description: $scope.register.description
                 })
                 .$promise.then(function(user) {
@@ -48,7 +48,7 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
                  $scope.register.successMessage = "Successfully registered " + user.login_name + "! Please login above.";
              }, function (error) {
                  $scope.register.registerError = true;
-                 $scope.register.errorMessage = "Error: registration failed.";
+                 $scope.register.errorMessage = "Error: registration failed. " + error.data;
              });
         };
 

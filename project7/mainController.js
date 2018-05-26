@@ -98,7 +98,7 @@ cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootSco
 
         $scope.admin.requestLogout = function () {
             var Logout = $resource("/admin/logout");
-            Logout.get({}).$promise.then(function() {
+            Logout.save({}).$promise.then(function() {
                 $scope.admin.isLoggedIn = false;
                 $scope.admin.firstname = "";
                 $rootScope.$broadcast('logout', "hi");
