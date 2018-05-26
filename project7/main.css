@@ -6,22 +6,38 @@ cs142-main- here.
 */
 
 .cs142-main-name {
-    width: 20%;
+    width: 15%;
     margin-bottom: auto;
     margin-top: auto;
     padding: 10px;
 }
 
 .cs142-main-login {
-    width: 25%;
+    width: 40%;
     margin-bottom: auto;
     margin-top: auto;
     text-align: center;
     padding: 10px;
 }
 
-.cs142-main-login button {
+.cs142-main-login input {
+    font-size: small;
+    width: 50%;
+}
+
+.cs142-main-small-button {
+    font-size: small;
+    margin-left: 2%;
+}
+
+.cs142-main-upload-error {
+    font-size: small;
+    color: red;
+}
+
+.cs142-main-login-button {
     margin-left: 5%;
+    font-size: medium;
 }
 
 .cs142-main-version {
@@ -29,7 +45,7 @@ cs142-main- here.
     margin-top: auto;
     padding: 10px;
     text-align: center;
-    width: 30%;
+    width: 25%;
 }
 
 .cs142-main-context {

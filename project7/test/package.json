@@ -11,7 +11,7 @@
     "mocha": "^2.3.4"
   },
   "scripts": {
-    "test": "mocha serverApiTest.js sessionInputApiTest.js"
+    "test": "mocha serverApiTest.js sessionInputApiTest.js cs142passwordTest.js"
   },
   "author": "Mendel Rosenblum <mendel@cs.stanford.edu> (http://www.stanford.edu/~mendel)",
   "license": "ISC"

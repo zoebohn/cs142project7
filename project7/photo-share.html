@@ -41,11 +41,28 @@
                 <span ng-if="admin.isLoggedIn" class="cs142-main-message2"> 
                     Hi {{admin.firstname}} 
                 </span>    
+                <button ng-if="admin.isLoggedIn" ng-click="admin.addPhoto()"
+                        class="cs142-main-login-button">
+                    Add Photo
+                </button>
                 <button ng-if="admin.isLoggedIn" 
                         ng-click="admin.requestLogout()" 
                         class="cs142-main-login-button" type="button">
                     Log out
                 </button>
+                <input ng-if="admin.isUploading" type="file" accept="image/*"  onchange="angular.element(this).scope().inputFileNameChanged(this)">
+                <button ng-if="admin.isUploading" ng-click="admin.upload()"
+                        class="cs142-main-small-button">
+                    Upload 
+                </button>
+                <button ng-if="admin.isUploading" ng-click="admin.cancelUpload()"
+                        class="cs142-main-small-button">
+                    Cancel
+                </button>
+                <span ng-if="admin.isUploading" ng-show="admin.uploadingError"
+                      class="cs142-main-upload-error">
+                    {{admin.uploadingErrorMsg}}
+                </span>
             </span>
             <span class="cs142-main-version"> Version number: {{versionNumber}} </span>
             <span class="cs142-main-context"> {{currentContext}} </span>

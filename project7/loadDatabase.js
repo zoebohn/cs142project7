@@ -27,6 +27,8 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/cs142project6');
 
+var Password = require('cs142password.js');
+
 // Load the Mongoose schema for Use and Photo
 var User = require('./schema/user.js');
 var PhotoSchema = require('./schema/photo.js');

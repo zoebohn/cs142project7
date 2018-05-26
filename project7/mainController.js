@@ -26,21 +26,73 @@ cs142App.config(['$routeProvider',
             });
     }]);
 
-cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$resource', 
-    function ($scope, $location, $rootScope, $resource) {
+cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootScope', '$resource', 
+    function ($scope, $location, $http, $rootScope, $resource) {
         $scope.main = {};
         $scope.main.title = 'Users';
+        
+        var selectedPhotoFile;   // Holds the last file selected by the user
         
         $scope.admin = {};
         $scope.admin.firstname = "";
         $scope.admin.isLoggedIn = false;
         $scope.admin.savedPath = $location.path();
+        $scope.admin.isUploading = false;
+        $scope.admin.uploadingError = false;
+        $scope.admin.addPhoto = function() {
+            $scope.admin.uploadingError = false;
+            $scope.admin.isUploading = true;
+            selectedPhotoFile = undefined;
+        };
+        $scope.admin.cancelUpload = function() {
+            $scope.admin.uploadingError = false;
+            $scope.admin.isUploading = false;
+            selectedPhotoFile = undefined;
+        };
+
+
+        // Called on file selection - we simply save a reference to the file in selectedPhotoFile
+        $scope.inputFileNameChanged = function (element) {
+            $scope.admin.uploadingError = false;
+            selectedPhotoFile = element.files[0];
+        };
+
+        // Has the user selected a file?
+        $scope.inputFileNameSelected = function () {
+            $scope.admin.uploadingError = false;
+            return !!selectedPhotoFile;
+        };
+
+        $scope.admin.upload = function () {
+            $scope.admin.uploadingError = false;
+            if (!$scope.inputFileNameSelected()) {
+                console.error("uploadPhoto called will no selected file");
+                return;
+            }
+
+            // Create a DOM form and add the file to it under the name uploadedphoto
+            var domForm = new FormData();
+            domForm.append('uploadedphoto', selectedPhotoFile);
+
+            // Using $http to POST the form
+            $http.post('/photos/new', domForm, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function successCallback(response){
+                $scope.admin.isUploading = false;
+                selectedPhotoFile = undefined;
+            }, function errorCallback(response){
+                $scope.admin.uploadingError = true;
+                $scope.admin.uploadingErrorMsg = "Error uploading photo: " + response.data;
+            });
+
+        }; 
 
         var Login = $resource("/admin/info");
         Login.get({}).$promise.then(function(user) {
             $scope.admin.isLoggedIn = true;
             $scope.admin.firstname = user.first_name;
-            $rootScope.$broadcast('login', user); //TODO finish this
+            $rootScope.$broadcast('login', user); 
             $location.path($scope.admin.savedPath);
         });
 
@@ -105,4 +157,5 @@ cs142App.controller('MainController', ['$scope', '$location', '$rootScope', '$re
         $scope.$on('$locationChangeSuccess', getCurrentContext);
         $scope.currentContext = ""; 
 
-    }]);
+    
+}]);

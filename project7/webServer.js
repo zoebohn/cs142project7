@@ -48,6 +48,8 @@ var app = express();
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var processFormBody = multer({storage: multer.memoryStorage()}).single('uploadedphoto');
+var fs = require("fs");
 app.use(session({secret: 'secretKey', resave: false, saveUninitialized: false}));
 app.use(bodyParser.json());
 
@@ -159,7 +161,7 @@ app.get('/user/:id', function (request, response) {
         return;
     }
     var id = request.params.id;
-    User.findOne({_id:id}, {__v:0}, function (err, user) {
+    User.findOne({_id:id}, {__v:0, login_name:0}, function (err, user) {
         if (err) {
             console.log('User with _id:' + id + ' not found.');
             response.status(400).send(JSON.stringify(err));
@@ -266,6 +268,41 @@ app.post('/commentsOfPhoto/:photo_id', function (request, response) {
         });
 
     }); 
+});
+
+app.post('/photos/new', function (request, response) {
+	processFormBody(request, response, function (err) {
+ 	   if (err || !request.file) {
+    	    response.status(400).send("File not found."); 
+        	return;
+    	}
+    	// request.file has the following properties of interest
+    	//      fieldname      - Should be 'uploadedphoto' since that is what we sent
+    	//      originalname:  - The name of the file the user uploaded
+    	//      mimetype:      - The mimetype of the image (e.g. 'image/jpeg',  'image/png')
+   		//      buffer:        - A node Buffer containing the contents of the file
+   	 	//      size:          - The size of the file in bytes
+
+    	// XXX - Do some validation here.
+	     	
+
+    	// We need to create the file in the directory "images" under an unique name. We make
+    	// the original file name unique by adding a unique prefix with a timestamp.
+    	var timestamp = new Date().valueOf();
+    	var filename = 'U' +  String(timestamp) + request.file.originalname;
+
+    	fs.writeFile("./images/" + filename, request.file.buffer, function (err) {
+        	Photo.create({file_name: filename, date_time: Date.now(), 
+            	user_id: request.session.user_id, comments: []}, function (err, newComment) {
+            	if (err) {
+                	response.status(500).send(JSON.stringify(err));
+                	return;
+            	}
+                response.end();
+            });
+        });
+			
+  	});
 });
 
 /*
