@@ -37,7 +37,9 @@ var async = require('async');
 
 // Load the Mongoose schema for User, Photo, and SchemaInfo
 var User = require('./schema/user.js');
-var Photo = require('./schema/photo.js');
+var PhotoSchemas = require('./schema/photo.js');
+var Comment = PhotoSchemas.Comment;
+var Photo = PhotoSchemas.Photo;
 var SchemaInfo = require('./schema/schemaInfo.js');
 
 var express = require('express');
@@ -206,6 +208,7 @@ app.get('/photosOfUser/:id', function (request, response) {
                         return;
                     }
                     if (user === null) {
+                        console.log("No user with id: " + comment.user_id);
                         comment_callback('User for comment ' + comment._id + ' not found');
                         return;
                     }
@@ -220,12 +223,48 @@ app.get('/photosOfUser/:id', function (request, response) {
             
         }, function (err) {
             if (err) {
+                console.log("Error****");
+                console.log(JSON.stringify(err));
                 response.status(400).send(JSON.stringify(err));
             } else {
                 response.end(JSON.stringify(photos));
             }
         });
     });
+});
+
+app.post('/commentsOfPhoto/:photo_id', function (request, response) {
+    if (!request.session.loggedIn) {
+        response.status(401).send("Please login to use this feature.");
+        return;
+    }
+    var photo_id = request.params.photo_id;
+    var commentBody = request.body.comment;
+    if (typeof commentBody === undefined || commentBody === "") {
+        response.status(400).send("Error: empty comment.");
+        return;
+    }
+    Photo.findOne({_id:photo_id}, {__v:0}, function (err, photo) {
+        if (err) {
+            response.status(400).send(JSON.stringify(err));
+            return;
+        } 
+        var comments = JSON.parse(JSON.stringify(photo.comments)); 
+        Comment.create({comment: commentBody, date_time: Date.now(), 
+            user_id: request.session.user_id}, function (err, newComment) {
+            if (err) {
+                console.log("Error creating: " + err);
+                response.status(500).send(JSON.stringify(err));
+                return;
+            }
+            comments.push(newComment); 
+            photo.comments = comments;
+            photo.save(function(err, updatedPhoto) {
+                response.end(JSON.stringify(updatedPhoto));
+            });
+        });
+
+    }); 
 });
 
 /*

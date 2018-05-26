@@ -14,7 +14,7 @@ cs142App.controller('UserListController', ['$scope', '$resource',
             $scope.showProfile = function (userID) {
                 location.hash = "!/users/" + userID;
             };
-        }
+        };
         $scope.loadList();
         $scope.$on('login', $scope.loadList);
         $scope.$on('logout', function(str) {

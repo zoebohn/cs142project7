@@ -24,6 +24,10 @@
     padding-left: 10px;
 }
 
+.cs142-photos-comment-button {
+    margin-top: 8px;
+}
+
 .cs142-photos-comment-label {
     width: 200px;
     padding: 0px;
@@ -33,4 +37,9 @@
     font-size: 30px;
     text-align: center;
     font-weight: bold;
+}
+
+.cs142-photos-table input {
+    margin-top: 10px;
+    width: 90%;
 }

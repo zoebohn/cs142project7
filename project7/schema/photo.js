@@ -29,6 +29,7 @@ var photoSchema = new mongoose.Schema({
 // the schema is useless so far
 // we need to create a model using it
 var Photo = mongoose.model('Photo', photoSchema);
+var Comment = mongoose.model('Comment', commentSchema);
 
 // make this available to our photos in our Node applications
-module.exports = Photo;
+module.exports = {Photo: Photo, Comment: Comment};

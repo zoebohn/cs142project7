@@ -29,7 +29,8 @@ mongoose.connect('mongodb://localhost/cs142project6');
 
 // Load the Mongoose schema for Use and Photo
 var User = require('./schema/user.js');
-var Photo = require('./schema/photo.js');
+var PhotoSchema = require('./schema/photo.js');
+var Photo = PhotoSchema.Photo;
 var SchemaInfo = require('./schema/schemaInfo.js');
 
 var versionString = '1.0';

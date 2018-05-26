@@ -19,6 +19,20 @@
                         <p> {{comment.comment}} </p>
                     </td>
                 </tr>
+            </table>
+            <button class="cs142-photos-comment-button" 
+                ng-click="commenting.add(photo._id)">
+                Add Comment
+            </button>
+            <div ng-if="commenting.id === photo._id">
+                <input ng-model="commenting.text"></input>
+                <button ng-click="commenting.submit()"> 
+                    Submit 
+                </button>
+                <button ng-click="commenting.cancel()"> 
+                    Cancel 
+                </button>
+            </div>
         </td>
     </tr>
 </table>
