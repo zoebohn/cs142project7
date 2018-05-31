@@ -46,6 +46,15 @@ cs142App.controller('LoginRegisterController', ['$scope', '$rootScope', '$locati
                 .$promise.then(function(user) {
                  $scope.register.registerSuccess = true;
                  $scope.register.successMessage = "Successfully registered " + user.login_name + "! Please login above.";
+                 $scope.register.username = "";
+                 $scope.register.password = "";
+                 $scope.register.passwordcpy = "";
+                 $scope.register.firstname = "";
+                 $scope.register.lastname = "";
+                 $scope.register.user_location = "";
+                 $scope.register.occupation = "";
+                 $scope.register.occupation = "";
+                 $scope.register.description = "";
              }, function (error) {
                  $scope.register.registerError = true;
                  $scope.register.errorMessage = "Error: registration failed. " + error.data;

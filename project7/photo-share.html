@@ -64,7 +64,7 @@
                     {{admin.uploadingErrorMsg}}
                 </span>
             </span>
-            <span class="cs142-main-version"> Version number: {{versionNumber}} </span>
+            <span class="cs142-main-version" ng-style="{'visibility': admin.isLoggedIn ? 'visible': 'hidden'}"> Version number: {{versionNumber}} </span>
             <span class="cs142-main-context"> {{currentContext}} </span>
         </md-toolbar>
 

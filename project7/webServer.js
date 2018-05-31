@@ -75,6 +75,11 @@ app.get('/', function (request, response) {
  */
 app.get('/test/:p1', function (request, response) {
     // Express parses the ":p1" from the URL and returns it in the request.params objects.
+    if (!request.session.loggedIn) {
+        response.status(401).send("Please login to use this feature.");
+        return;
+    }
+    
     console.log('/test called with param1 = ', request.params.p1);
 
     var param = request.params.p1 || 'info';
@@ -264,7 +269,7 @@ app.post('/commentsOfPhoto/:photo_id', function (request, response) {
                     response.status(400).send(JSON.stringify(err));
                     return;
                 }
-                response.end(JSON.stringify());
+                response.end();
             });
         });
 
@@ -342,10 +347,12 @@ app.post('/admin/logout', function (request, response) {
         response.status(400).send('Not currently logged in');
         return;
     }
-    //TODO destroy session
-    request.session.loggedIn = false;
-    request.session.user_id = "";
-    response.status(200).send("Successfully logged out");
+    delete request.session.loggedIn;
+    delete request.session.user_id; 
+    request.session.destroy( function () {
+        response.status(200).send("Successfully logged out");
+    });
+    
 });
 
 app.post('/user', function (request, response) {
@@ -395,7 +402,7 @@ app.post('/user', function (request, response) {
 /* Extra credit */
 app.get('/admin/info', function (request, response) {
     if (!request.session.loggedIn) {
-        response.status(400).send('Not currently logged in');
+        response.status(401).send('Not currently logged in');
         return;
     }
     var id = request.session.user_id;

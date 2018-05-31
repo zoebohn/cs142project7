@@ -117,10 +117,14 @@ cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootSco
             }
         );
 
-        var Test = $resource("/test/info");
-        Test.get({}).$promise.then(function (info) {
-            $scope.versionNumber = info.__v;
-        });
+        $scope.getVersionNumber = function () {
+            var Test = $resource("/test/info");
+            Test.get({}).$promise.then(function (info) {
+                $scope.versionNumber = info.__v;
+            });
+        };
+        $scope.getVersionNumber();
+        $scope.$on('login', $scope.getVersionNumber);
         
         $scope.myName = "Zoë Bohn";
 
