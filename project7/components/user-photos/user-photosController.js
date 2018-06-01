@@ -20,11 +20,11 @@ cs142App.controller('UserPhotosController', ['$scope', '$routeParams', '$resourc
         $scope.commenting.id = id;
     };
     $scope.commenting.submit = function () {
-        var Comment = $resource("/commentsOfPhoto/" + $scope.commenting.id);
+        var Comment = $resource("/commentsOfPhoto/:id", {id: $scope.commenting.id});
         Comment.save({comment: $scope.commenting.text}).
             $promise.then(function() {
                 /* Update photos. */
-                var Photos = $resource("/photosOfUser/" + userId);
+                var Photos = $resource("/photosOfUser/:id", {id: userId});
                 Photos.query({}).$promise.then(function(photos) {
                     $scope.model.photos = photos;
                     $scope.commenting.id = "";

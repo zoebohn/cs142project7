@@ -26,8 +26,8 @@ cs142App.config(['$routeProvider',
             });
     }]);
 
-cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootScope', '$resource', 
-    function ($scope, $location, $http, $rootScope, $resource) {
+cs142App.controller('MainController', ['$scope', '$location', '$routeParams', '$http', '$rootScope', '$resource', 
+    function ($scope, $location, $routeParams, $http, $rootScope, $resource) {
         $scope.main = {};
         $scope.main.title = 'Users';
         
@@ -132,20 +132,18 @@ cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootSco
             if (location.hash === undefined) {
                 $scope.currentContext = "";
             }
-            var userId;
+            var userId = $routeParams.userId;
             var User;
             var photoHash = "!/photos/";
             var userHash = "!/users/";
             if (location.hash.includes(photoHash)) {
-                userId = location.hash.split(photoHash)[1];
-                User = $resource("/user/" + userId);
+                User = $resource("/user/:id", {id: userId});
                 User.get({}).$promise.then(function (user) {
                     $scope.currentContext = "Photos of " + 
                         user.first_name + " " + user.last_name;
                 });
             } else if (location.hash.includes(userHash)) {
-                userId = location.hash.split(userHash)[1];
-                User = $resource("/user/" + userId);
+                User = $resource("/user/:id", {id: userId});
                 User.get({}).$promise.then(function(user) {
                     $scope.currentContext = user.first_name + 
                         " " + user.last_name; 
@@ -158,7 +156,7 @@ cs142App.controller('MainController', ['$scope', '$location', '$http', '$rootSco
                 }
             }
         };
-        $scope.$on('$locationChangeSuccess', getCurrentContext);
+        $scope.$on('$routeChangeSuccess', getCurrentContext);
         $scope.currentContext = ""; 
 
     

@@ -9,7 +9,7 @@ cs142App.controller('UserDetailController', ['$scope', '$routeParams', '$resourc
     var userId = $routeParams.userId;
     
     $scope.model = {}; 
-    var User = $resource("/user/" + userId);
+    var User = $resource("/user/:id", {id: userId});
     User.get({}).$promise.then(function(user) {
         $scope.model.user = user;
     });
